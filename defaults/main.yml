@@ -46,7 +46,7 @@ hubot_node_packages:
   - redis@0.8.4
   - soupselect
   - hubot-xmpp
-  - hubot-gtalk
+  - git+https://git@github.com/xslim/hubot-gtalk.git
   - git+https://git@github.com/miohtama/hubot-open-webhook.git
 
 hubot_os_packages:

@@ -97,7 +97,7 @@
 
 - name: Hubot home ownership
   sudo: True
-  file: "path={{ item }} owner={{ hubot_admin }} group={{ hubot_admin }} recurse=yes"
+  file: "path={{ item }} owner={{ hubot_admin }} group={{ hubot_admin }} recurse=yes state=directory"
   with_items: hubot_all_dirs
   tags:
     - hubot_environment

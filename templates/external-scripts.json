@@ -1,0 +1,5 @@
+[
+    {% for script in hubot_external_scripts %}
+    "{{script}}"{% if not loop.last %},{% endif %}
+    {% endfor %}
+]

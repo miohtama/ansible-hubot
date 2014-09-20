@@ -45,6 +45,9 @@ hubot_node_packages:
   - querystring
   - redis@0.8.4
   - soupselect
+  - hubot-xmpp
+  - hubot-gtalk
+  - git+https://git@github.com/miohtama/hubot-open-webhook.git
 
 hubot_os_packages:
   - curl
@@ -54,6 +57,11 @@ hubot_os_packages:
   - openssl
   - redis-server
   - build-essential
+
+hubot_external_scripts:
+    - hubot-hipchat-emoticons
+    - hubot-open-webhook
+    - hubot-calculator
 
 hubot_all_dirs:
     - "{{ hubot_dir }}"

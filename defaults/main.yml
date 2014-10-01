@@ -18,7 +18,7 @@
 
 hubot_admin: vagrant
 
-hubot_adapter: hipchat
+hubot_adapter: shell
 
 hubot_node_version: 0.10.31
 
@@ -33,30 +33,30 @@ hubot_src_dir: "/home/{{ hubot_admin }}/src/hubot"
 hubot_identity: hubot
 
 hubot_node_packages:
-  - cheerio
-  - clark
-  - cleverbot-node
-  - htmlparser
-  - hubot-calculator
-  - hubot-hipchat
-  - hubot-hipchat-emoticons
-  - hubot-scripts
-  - nodepie
-  - querystring
-  - redis@0.8.4
-  - soupselect
-  - hubot-xmpp
-  - git+https://git@github.com/xslim/hubot-gtalk.git
-  - git+https://git@github.com/miohtama/hubot-open-webhook.git
+    - cheerio
+    - clark
+    - cleverbot-node
+    - htmlparser
+    - hubot-calculator
+    - hubot-hipchat
+    - hubot-hipchat-emoticons
+    - hubot-scripts
+    - nodepie
+    - querystring
+    - redis@0.8.4
+    - soupselect
+    - hubot-xmpp
+    - git+https://git@github.com/miohtama/hubot-gtalk.git
+    - git+https://git@github.com/miohtama/hubot-open-webhook.git
 
 hubot_os_packages:
-  - curl
-  - expat
-  - git
-  - libicu-dev
-  - openssl
-  - redis-server
-  - build-essential
+    - curl
+    - expat
+    - git
+    - libicu-dev
+    - openssl
+    - redis-server
+    - build-essential
 
 hubot_external_scripts:
     - hubot-hipchat-emoticons

@@ -84,11 +84,17 @@
     - restart hubot
   tags:
     - hubot_environment
+  notify:
+    - restart hubot
 
 - name: Install Hubot start script
   sudo: True
   sudo_user: "{{ hubot_admin }}"
   template: "src=start-hubot.sh.j2 dest={{ hubot_dir }}/bin/start-hubot mode=0744"
+  tags:
+    - hubot_environment
+  notify:
+    - restart hubot
 
 - name: Install Hubot scripts
   sudo: True
@@ -113,6 +119,8 @@
 
 - name: Hubot log directory
   file: "path={{ hubot_dir }}/log state=directory owner={{ hubot_admin }} group={{ hubot_admin }}"
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   tags:
     - hubot_environment
 

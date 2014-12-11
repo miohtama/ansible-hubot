@@ -8,59 +8,77 @@
   tags:
     - system_packages
 
+- name: Create Hubot user
+  sudo: True
+  user: "name={{ hubot_admin }}"
+
 - name: Install Node Version Manager
-  sudo: False
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   git: "repo=https://github.com/creationix/nvm.git dest={{ hubot_nvm_dir }} accept_hostkey=yes"
   tags:
     - node_nvm
 
 - name: Install Node.js
-  sudo: False
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   shell: "source {{ hubot_nvm_dir }}/nvm.sh && nvm install {{ hubot_node_version }} creates={{ hubot_node_dir }} executable=/bin/bash"
   tags:
     - node_packages
 
+# TODO: Bump Hubot version, make this use Yeoman based project generator
 - name: Clone Hubot repository
-  sudo: False
-  git: "repo=git://github.com/github/hubot.git dest={{ hubot_src_dir }} accept_hostkey=yes"
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
+  git: "repo=git://github.com/github/hubot.git dest={{ hubot_src_dir }} version=v2.8.3 accept_hostkey=yes "
   tags: hubot_src
 
 - name: Install Hubot base
-  sudo: False
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   npm: "path={{ hubot_src_dir }} executable={{ hubot_node_dir }}/bin/npm state=present"
 
 - name: Install CoffeeScript
-  sudo: False
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   npm: "name=coffee-script executable={{ hubot_node_dir }}/bin/npm path={{ hubot_dir }} state=present"
   tags:
     - node_packages
 
+# TODO: Bump Hubot version, make this use Yeoman based project generator
 - name: Assemble Hubot
-  sudo: False
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   shell: "source {{ hubot_nvm_dir }}/nvm.sh && nvm use {{ hubot_node_version }} && make package chdir={{ hubot_src_dir }} executable=/bin/bash"
 
 - name: Decommission previous model
   sudo: True
+  sudo_user: "{{ hubot_admin }}"
   file: "path={{ hubot_dir }} state=absent"
 
 - name: Activate new Hubot
-  sudo: False
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   command: " mv {{ hubot_src_dir }}/hubot {{ hubot_dir }}/"
 
 - name: Install hubot dependencies
-  sudo: False
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   npm: "name={{ item }} executable={{ hubot_node_dir }}/bin/npm path={{ hubot_dir }} state=present"
   with_items: hubot_node_packages
   tags:
     - node_packages
 
 - name: Update package status
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   shell: "source {{ hubot_nvm_dir }}/nvm.sh && {{ hubot_node_dir }}/bin/npm update --save chdir={{ hubot_dir }} executable=/bin/bash"
   tags:
     - node_packages
 
 - name: Define Hubot environment
-  sudo: False
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   template: "src=_hubot.env.j2 dest={{ hubot_dir }}/{{ hubot_identity }}.env"
   notify:
     - restart hubot
@@ -68,17 +86,20 @@
     - hubot_environment
 
 - name: Install Hubot start script
-  sudo: False
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   template: "src=start-hubot.sh.j2 dest={{ hubot_dir }}/bin/start-hubot mode=0744"
 
 - name: Install Hubot scripts
-  sudo: False
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   copy: "src=scripts/ dest={{ hubot_dir }}/scripts owner={{ hubot_admin }} mode=0644"
   tags:
     - hubot_scripts
 
 - name: Configure Hubot scripts
-  sudo: False
+  sudo: True
+  sudo_user: "{{ hubot_admin }}"
   template: "src=hubot-scripts.json.j2 dest={{ hubot_dir }}/hubot-scripts.json"
   tags:
     - hubot_scripts
@@ -86,7 +107,7 @@
     - restart hubot
 
 - name: Configure Hubot external scripts
-  sudo: False
+  sudo: True
   template: "src=external-scripts.json dest={{ hubot_dir }}/external-scripts.json owner={{ hubot_admin }} group={{ hubot_admin }} mode=0644"
   tags: hubot_scripts
 
